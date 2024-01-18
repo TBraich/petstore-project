@@ -1,11 +1,13 @@
-//package petstore.user.repository;
-//
-//import org.apache.ibatis.annotations.Mapper;
-//import org.apache.ibatis.annotations.Select;
-//import petstore.user.entity.User;
-//
-//@Mapper
-//public interface UserRepository {
-//    @Select("SELECT * FROM users WHERE id = #{id}")
-//    User findById(String id);
-//}
+package petstore.user.repository;
+
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import petstore.user.entity.User;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+  Optional<User> findByEmail(String email);
+
+  Optional<User> findByFirstName(String firstName);
+}

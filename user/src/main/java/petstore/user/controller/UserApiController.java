@@ -1,21 +1,28 @@
 package petstore.user.controller;
 
+import static petstore.common.utils.CommonFunctions.convertObjectToString;
+import static petstore.user.dto.common.RestApiHeader.EVENT_TIME;
+import static petstore.user.dto.common.RestApiHeader.ONE_TIME_ID;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import petstore.user.dto.common.RestApiHeader;
 import petstore.user.dto.request.CreateUserRequest;
 import petstore.user.dto.request.UpdateUserRequest;
-import petstore.user.dto.response.UserResponse;
 import petstore.user.service.UserService;
 import petstore.user.validation.Required;
 
@@ -25,30 +32,55 @@ import petstore.user.validation.Required;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserApiController {
+  private final ObjectMapper objectMapper;
   private final UserService userService;
 
   @PostMapping
-  public UserResponse create(RestApiHeader header, @RequestBody CreateUserRequest request) {
-    return userService.create(header.getOneTimeId(), request);
+  public ResponseEntity<ObjectNode> create(
+      @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
+      @RequestHeader(name = EVENT_TIME) String eventTime,
+      @Valid @RequestBody CreateUserRequest request) {
+    log.info("START API Create User, ID: {} at {}, Request: {}", oneTimeId, eventTime, request);
+    var response = userService.create(oneTimeId, request);
+    return prepareResponse(oneTimeId, response);
   }
 
   @GetMapping("/{userInfo}")
-  public UserResponse find(RestApiHeader header, @Required @RequestParam("userInfo") String userId) {
-//    MissingServletRequestParameterException
-    return userService.find(header.getOneTimeId(), userId);
+  public ResponseEntity<ObjectNode> find(
+      @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
+      @RequestHeader(name = EVENT_TIME) String eventTime,
+      @Required @RequestParam("userInfo") String userId) {
+    log.info("START API Find User, ID: {} at {}, Request: {}", oneTimeId, eventTime, userId);
+    var response = userService.find(oneTimeId, userId);
+    return prepareResponse(oneTimeId, response);
   }
 
   @PutMapping("/{userInfo}")
-  public UserResponse update(
-          RestApiHeader header,
-          @Nonnull @RequestParam("userInfo") String userId,
-          @RequestBody UpdateUserRequest request) {
-    return userService.update(header.getOneTimeId(), userId, request);
+  public ResponseEntity<ObjectNode> update(
+      @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
+      @RequestHeader(name = EVENT_TIME) String eventTime,
+      @Nonnull @RequestParam("userInfo") String userId,
+      @RequestBody UpdateUserRequest request) {
+    log.info("START API Update User, ID: {} at {}, userId: {}", oneTimeId, eventTime, userId);
+    var response = userService.update(oneTimeId, userId, request);
+    return prepareResponse(oneTimeId, response);
   }
 
   @DeleteMapping("/{userInfo}")
-  public UserResponse delete(
-          RestApiHeader header, @Nonnull @RequestParam("userInfo") String userId) {
-    return userService.delete(header.getOneTimeId(), userId);
+  public ResponseEntity<ObjectNode> delete(
+      @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
+      @RequestHeader(name = EVENT_TIME) String eventTime,
+      @Nonnull @RequestParam("userInfo") String userId) {
+    log.info(
+        "START API Delete User, RequestID: {} at {}, Request: {}", oneTimeId, eventTime, userId);
+    var response = userService.delete(oneTimeId, userId);
+    return prepareResponse(oneTimeId, response);
+  }
+
+  private ResponseEntity<ObjectNode> prepareResponse(String oneTimeId, Object body) {
+    ObjectNode responseBody = objectMapper.createObjectNode();
+    responseBody.put("requestId", oneTimeId);
+    responseBody.put("data", convertObjectToString(body));
+    return ResponseEntity.ok(responseBody);
   }
 }
