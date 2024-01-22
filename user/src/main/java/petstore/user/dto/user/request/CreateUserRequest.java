@@ -1,4 +1,4 @@
-package petstore.user.dto.request;
+package petstore.user.dto.user.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,7 +22,7 @@ public class CreateUserRequest {
   @Required private String email;
   private String address;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDate birthday;
 
   private String phone;

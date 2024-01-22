@@ -1,10 +1,9 @@
 package petstore.user.controller;
 
-import static petstore.common.utils.CommonFunctions.convertObjectToString;
+import static petstore.common.utils.CommonFunctions.prepareResponse;
 import static petstore.user.dto.common.RestApiHeader.EVENT_TIME;
 import static petstore.user.dto.common.RestApiHeader.ONE_TIME_ID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.Valid;
@@ -21,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import petstore.user.dto.request.CreateUserRequest;
-import petstore.user.dto.request.UpdateUserRequest;
+import petstore.user.dto.user.request.CreateUserRequest;
+import petstore.user.dto.user.request.UpdateUserRequest;
 import petstore.user.service.UserService;
 import petstore.user.validation.Required;
 
@@ -32,7 +31,6 @@ import petstore.user.validation.Required;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserApiController {
-  private final ObjectMapper objectMapper;
   private final UserService userService;
 
   @PostMapping
@@ -75,12 +73,5 @@ public class UserApiController {
         "START API Delete User, RequestID: {} at {}, Request: {}", oneTimeId, eventTime, userId);
     var response = userService.delete(oneTimeId, userId);
     return prepareResponse(oneTimeId, response);
-  }
-
-  private ResponseEntity<ObjectNode> prepareResponse(String oneTimeId, Object body) {
-    ObjectNode responseBody = objectMapper.createObjectNode();
-    responseBody.put("requestId", oneTimeId);
-    responseBody.put("data", convertObjectToString(body));
-    return ResponseEntity.ok(responseBody);
   }
 }

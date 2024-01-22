@@ -22,8 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import petstore.user.dto.request.CreateUserRequest;
-import petstore.user.dto.response.UserResponse;
+import petstore.user.dto.user.request.CreateUserRequest;
+import petstore.user.dto.user.response.UserResponse;
 import petstore.user.service.UserService;
 
 @SpringBootTest

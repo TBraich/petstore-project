@@ -1,8 +1,8 @@
 package petstore.user.service;
 
-import petstore.user.dto.request.CreateUserRequest;
-import petstore.user.dto.request.UpdateUserRequest;
-import petstore.user.dto.response.UserResponse;
+import petstore.user.dto.user.request.CreateUserRequest;
+import petstore.user.dto.user.request.UpdateUserRequest;
+import petstore.user.dto.user.response.UserResponse;
 
 public interface UserService {
     UserResponse create(String oneTimeId, CreateUserRequest request);

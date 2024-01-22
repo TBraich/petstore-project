@@ -1,4 +1,4 @@
-package petstore.user.dto.response;
+package petstore.user.dto.user.response;
 
 import java.time.LocalDate;
 import lombok.Builder;
