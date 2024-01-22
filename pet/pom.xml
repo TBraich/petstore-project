@@ -9,11 +9,18 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-
 	<artifactId>petstore-project.pet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pet</name>
 	<description>Petstore project - Pet Management</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>petstore</groupId>
+			<artifactId>petstore-project.common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
