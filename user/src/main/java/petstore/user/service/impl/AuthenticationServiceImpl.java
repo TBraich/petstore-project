@@ -11,7 +11,7 @@ import petstore.user.dto.auth.LoginRequest;
 import petstore.user.dto.auth.LoginResponse;
 import petstore.user.repository.UserRepository;
 import petstore.user.service.AuthenticationService;
-import petstore.user.util.JwtUtil;
+import petstore.common.utils.JwtUtil;
 
 @Log4j2
 @Service
