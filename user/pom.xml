@@ -13,6 +13,14 @@
     <name>user</name>
     <description>Petstore project - User Management</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>petstore</groupId>
+            <artifactId>petstore-project.common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

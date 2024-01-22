@@ -18,6 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <spring-security.version>6.2.1</spring-security.version>
     </properties>
 
     <!-- Manage modules -->
@@ -28,6 +29,17 @@
     </modules>
 
     <dependencies>
+        <!-- ... other dependency elements ... -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.12.3</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -91,9 +103,8 @@
         </dependency>
 
         <dependency>
-            <groupId>petstore</groupId>
-            <artifactId>petstore-project.common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
         <!-- For testing -->
