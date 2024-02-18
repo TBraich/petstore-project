@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 /** User Entity Jpa. */
 @Entity
-@Table(name = "users")
+@Table(name = "app_user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
