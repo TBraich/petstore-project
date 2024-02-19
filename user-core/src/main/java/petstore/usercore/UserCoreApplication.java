@@ -1,4 +1,4 @@
-package petstore.usercore.listener;
+package petstore.usercore;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "petstore")
-@EnableJpaRepositories("petstore.user.repository")
+@EnableJpaRepositories("petstore.usercore.repository")
 @ComponentScan("petstore")
-@EntityScan("petstore.user.entity")
+@EntityScan("petstore")
 public class UserCoreApplication {
 
   public static void main(String[] args) {
