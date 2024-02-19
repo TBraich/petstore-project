@@ -29,11 +29,9 @@ public class UserListServiceImpl implements UserListService {
     var listBatch = Lists.partition(request.getUsers(), 10);
 
     // Prepare and sending records
-    for (int i = 0; i < listBatch.size(); i++) {
-      String key = "id-" + i;
-
+    for (var batch : listBatch) {
       ProducerRecord<String, Object> userBatchRecords =
-          new ProducerRecord<>(topic, key, listBatch.get(i));
+          new ProducerRecord<>(topic, oneTimeId, batch);
 
       var future = kafkaProducer.send(userBatchRecords);
       future.whenComplete(
@@ -42,8 +40,10 @@ public class UserListServiceImpl implements UserListService {
               log.error(
                   "Failed sending records for {}, key: {} - Error: {}",
                   topic,
-                  key,
+                  oneTimeId,
                   err.getMessage());
+            } else {
+              log.info("Send message successfully! Response: {}", res.getProducerRecord().key());
             }
           });
     }
