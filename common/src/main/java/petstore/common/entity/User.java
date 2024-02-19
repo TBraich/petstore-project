@@ -1,4 +1,4 @@
-package petstore.user.entity;
+package petstore.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

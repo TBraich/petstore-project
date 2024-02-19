@@ -1,9 +1,9 @@
-package petstore.user.validation.impl;
+package petstore.common.validation.impl;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Objects;
-import petstore.user.validation.Required;
+import petstore.common.validation.Required;
 
 public class RequireValidator implements ConstraintValidator<Required, Object> {
 

@@ -1,7 +1,7 @@
-package petstore.user.validation;
+package petstore.common.validation;
 
 import jakarta.validation.Constraint;
-import petstore.user.validation.impl.RequireValidator;
+import petstore.common.validation.impl.RequireValidator;
 
 import java.lang.annotation.*;
 
