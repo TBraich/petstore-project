@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = "petstore")
 @EnableJpaRepositories("petstore.user.repository")
 @ComponentScan("petstore")
-@EntityScan("petstore.user.entity")
+@EntityScan("petstore")
 public class UserApplication {
 
 	public static void main(String[] args) {

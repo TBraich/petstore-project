@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import petstore.user.validation.Required;
+import petstore.common.validation.Required;
 
 @Validated
 @Data
