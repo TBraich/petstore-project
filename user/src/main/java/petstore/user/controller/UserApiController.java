@@ -1,8 +1,8 @@
 package petstore.user.controller;
 
 import static petstore.common.utils.CommonFunctions.prepareResponse;
-import static petstore.user.dto.common.RestApiHeader.EVENT_TIME;
-import static petstore.user.dto.common.RestApiHeader.ONE_TIME_ID;
+import static petstore.common.dto.RestApiHeader.EVENT_TIME;
+import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.Nonnull;

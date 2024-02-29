@@ -1,7 +1,12 @@
 package petstore.user.controller;
 
+import static petstore.common.dto.RestApiHeader.EVENT_TIME;
+import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
+import static petstore.common.utils.CommonFunctions.prepareResponse;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.validation.Valid;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +20,13 @@ import petstore.user.dto.user.request.CreateBatchUserRequest;
 import petstore.user.dto.user.request.CreateUserRequest;
 import petstore.user.service.UserListService;
 
-import java.util.stream.Collectors;
-
-import static petstore.common.utils.CommonFunctions.prepareResponse;
-import static petstore.user.dto.common.RestApiHeader.EVENT_TIME;
-import static petstore.user.dto.common.RestApiHeader.ONE_TIME_ID;
-
 @RestController
 @Validated
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/users/list")
 public class UserListApiController {
-    private final UserListService service;
+  private final UserListService userListService;
 
     @PostMapping
     public ResponseEntity<ObjectNode> createByBatch(
@@ -41,7 +40,7 @@ public class UserListApiController {
                 request.getUsers().stream()
                         .map(CreateUserRequest::getFirstName)
                         .collect(Collectors.joining(", ")));
-        var response = service.create(oneTimeId, request);
+    var response = userListService.create(oneTimeId, request);
         return prepareResponse(oneTimeId, response);
     }
 }

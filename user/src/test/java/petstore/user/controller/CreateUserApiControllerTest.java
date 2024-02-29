@@ -6,8 +6,8 @@ import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static petstore.user.dto.common.RestApiHeader.EVENT_TIME;
-import static petstore.user.dto.common.RestApiHeader.ONE_TIME_ID;
+import static petstore.common.dto.RestApiHeader.EVENT_TIME;
+import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;

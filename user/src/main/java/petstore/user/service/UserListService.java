@@ -1,6 +1,6 @@
 package petstore.user.service;
 
-import petstore.user.dto.common.BasicResponse;
+import petstore.common.dto.BasicResponse;
 import petstore.user.dto.user.request.CreateBatchUserRequest;
 
 public interface UserListService {
