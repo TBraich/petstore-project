@@ -1,4 +1,4 @@
-package petstore.user.config;
+package petstore.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import petstore.user.config.filter.JwtAthFilter;
+import petstore.common.config.filter.JwtAthFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,23 +22,10 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
     http.csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(
-            requestMatcher -> requestMatcher.requestMatchers("/ath/**").permitAll())
-        .authorizeHttpRequests(
-            requestMatcher ->
-                requestMatcher
-                    //                    .requestMatchers(HttpMethod.DELETE)
-                    //                    .hasRole("ADMIN")
-                    //                    .requestMatchers("/admin/**")
-                    //                    .hasAnyRole("ADMIN")
-                    //                    .requestMatchers("/user/**")
-                    //                    .hasAnyRole("USER", "ADMIN")
-                    //                    .requestMatchers("/login/**")
-                    .requestMatchers("/user", "/user/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
+        .authorizeHttpRequests(authReq -> authReq.requestMatchers("/ath/**").permitAll())
+        .authorizeHttpRequests(authReq -> authReq.requestMatchers("/user", "/user/**").permitAll())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
