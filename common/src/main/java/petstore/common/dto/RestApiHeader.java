@@ -1,4 +1,4 @@
-package petstore.user.dto.common;
+package petstore.common.dto;
 
 public class RestApiHeader {
   public static final String ONE_TIME_ID = "one-time-id";
