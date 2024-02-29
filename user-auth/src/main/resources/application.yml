@@ -1,0 +1,17 @@
+spring:
+  flyway:
+    enabled: false
+#  database:
+#    host: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
+#    name: user_database
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.jdbc.Driver
+  dataSource:
+    url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8083
