@@ -9,11 +9,6 @@ public class RequireValidator implements ConstraintValidator<Required, Object> {
 
   @Override
   public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
-//    constraintValidatorContext.disableDefaultConstraintViolation();
-//    constraintValidatorContext
-//        .buildConstraintViolationWithTemplate("Param is missing!")
-//        .addConstraintViolation();
-    System.out.println("been here");
     return Objects.nonNull(o);
   }
 }

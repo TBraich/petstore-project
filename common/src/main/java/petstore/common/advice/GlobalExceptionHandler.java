@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.transaction.SystemException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import petstore.common.advice.exception.ExistingRecordException;
+import petstore.common.advice.exception.ExternalException;
 import petstore.common.advice.exception.NotFoundException;
 
 @Log4j2
@@ -60,6 +62,16 @@ public class GlobalExceptionHandler {
         isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
     var response = prepareResponse(oneTimeId, ex.getMessage());
     return ResponseEntity.unprocessableEntity().body(response);
+  }
+
+  @ExceptionHandler({SystemException.class, ExternalException.class})
+  public ResponseEntity<Object> handleSystemException(
+      final Exception ex, final WebRequest request) {
+    log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
+    String oneTimeId =
+        isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
+    var response = prepareResponse(oneTimeId, ex.getMessage());
+    return ResponseEntity.internalServerError().body(response);
   }
 
   private ObjectNode prepareResponse(String oneTimeUid, Object body) {

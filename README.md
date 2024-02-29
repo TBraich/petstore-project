@@ -20,4 +20,7 @@ kafka-console-consumer.sh --bootstrap-server 0.0.0.0:9092 --topic users --from-b
    kafka-topics.sh --bootstrap-server localhost:9092 --create --topic users --partitions 3
 4. check console: <br>
    kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic users --from-beginning
+5. Disable ipv6: <br>
+   sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+   sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 
