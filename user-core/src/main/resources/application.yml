@@ -9,3 +9,18 @@ spring:
 
 server:
   port: 8081
+
+petstore:
+  app:
+    auth:
+      host: http://localhost:8082
+      authorize: /ath/authorize
+      role: /ath/role
+    env: dev
+
+# TODO: Remove this, apply only for production
+auth0:
+  domain: https://dev-rsfu0whza0r8faxr.jp.auth0.com
+  audience: https://dev-rsfu0whza0r8faxr.jp.auth0.com/api/v2/
+  client-id: R9VqwvYhZqTS48H0QkOS3aB9R42WKU8N
+  client-secret: JbZotU4AGsUtpOBi9ZwgvoUheGI5IKELi4mJ0hZsoc8XG3uycv1XhGeHjPJ8YFPG
