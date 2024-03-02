@@ -1,4 +1,4 @@
-package petstore.user.dto.auth;
+package petstore.userauth.dto;
 
 import lombok.Builder;
 import lombok.Data;
