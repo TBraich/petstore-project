@@ -24,7 +24,7 @@ import petstore.user.service.UserListService;
 @Validated
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping("/users/list")
+@RequestMapping("/users/register")
 public class UserListApiController {
   private final UserListService userListService;
 

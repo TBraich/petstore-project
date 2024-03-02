@@ -33,7 +33,7 @@ import petstore.user.service.UserService;
 public class UserApiController {
   private final UserService userService;
 
-  @PostMapping
+  @PostMapping("/register")
   public ResponseEntity<ObjectNode> create(
       @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
       @RequestHeader(name = EVENT_TIME) String eventTime,

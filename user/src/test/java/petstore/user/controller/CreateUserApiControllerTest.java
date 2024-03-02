@@ -29,6 +29,7 @@ import petstore.user.service.UserService;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CreateUserApiControllerTest {
+  private static final String USER_REGISTER_PATH = "/user/register";
   @Autowired ObjectMapper objectMapper;
   @MockBean UserService service;
   @Autowired MockMvc mockMvc;
@@ -38,7 +39,7 @@ public class CreateUserApiControllerTest {
   void missingHeaders_oneTimeId() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user")
+            MockMvcRequestBuilders.post(USER_REGISTER_PATH)
                 .header(EVENT_TIME, "2024-01-01 00:00:00")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +62,7 @@ public class CreateUserApiControllerTest {
   void missingHeaders_eventTime() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user")
+            MockMvcRequestBuilders.post(USER_REGISTER_PATH)
                 .header(ONE_TIME_ID, UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,7 +86,7 @@ public class CreateUserApiControllerTest {
   void missingBody_firstName() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user")
+            MockMvcRequestBuilders.post(USER_REGISTER_PATH)
                 .header(ONE_TIME_ID, UUID.randomUUID())
                 .header(EVENT_TIME, "2024-01-01 00:00:00")
                 .accept(MediaType.APPLICATION_JSON)
@@ -109,7 +110,7 @@ public class CreateUserApiControllerTest {
   void missingBody_lastName() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user")
+            MockMvcRequestBuilders.post(USER_REGISTER_PATH)
                 .header(ONE_TIME_ID, UUID.randomUUID())
                 .header(EVENT_TIME, "2024-01-01 00:00:00")
                 .accept(MediaType.APPLICATION_JSON)
@@ -133,7 +134,7 @@ public class CreateUserApiControllerTest {
   void missingBody_email() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user")
+            MockMvcRequestBuilders.post(USER_REGISTER_PATH)
                 .header(ONE_TIME_ID, UUID.randomUUID())
                 .header(EVENT_TIME, "2024-01-01 00:00:00")
                 .accept(MediaType.APPLICATION_JSON)
@@ -160,7 +161,7 @@ public class CreateUserApiControllerTest {
 
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user")
+            MockMvcRequestBuilders.post(USER_REGISTER_PATH)
                 .header(ONE_TIME_ID, UUID.randomUUID())
                 .header(EVENT_TIME, "2024-01-01 00:00:00")
                 .accept(MediaType.APPLICATION_JSON)
