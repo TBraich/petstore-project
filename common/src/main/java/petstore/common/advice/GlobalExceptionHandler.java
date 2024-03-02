@@ -1,6 +1,11 @@
 package petstore.common.advice;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -8,7 +13,6 @@ import jakarta.transaction.SystemException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,8 +33,8 @@ public class GlobalExceptionHandler {
       final Exception ex, final WebRequest request) {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
-        isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
-    var response = prepareResponse(oneTimeId, ex.getMessage());
+        isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
+    var response = prepareResponse(BAD_REQUEST.value(), oneTimeId, ex.getMessage());
     return ResponseEntity.badRequest().body(response);
   }
 
@@ -39,9 +43,9 @@ public class GlobalExceptionHandler {
       final Exception ex, final WebRequest request) {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
-        isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
-    var response = prepareResponse(oneTimeId, ex.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
+    var response = prepareResponse(NOT_FOUND.value(), oneTimeId, ex.getMessage());
+    return ResponseEntity.status(NOT_FOUND).body(response);
   }
 
   @ExceptionHandler({Exception.class})
@@ -49,8 +53,8 @@ public class GlobalExceptionHandler {
       final Exception ex, final WebRequest request) {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
-        isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
-    var response = prepareResponse(oneTimeId, ex.getMessage());
+        isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
+    var response = prepareResponse(INTERNAL_SERVER_ERROR.value(), oneTimeId, ex.getMessage());
     return ResponseEntity.internalServerError().body(response);
   }
 
@@ -59,8 +63,8 @@ public class GlobalExceptionHandler {
       final Exception ex, final WebRequest request) {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
-        isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
-    var response = prepareResponse(oneTimeId, ex.getMessage());
+        isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
+    var response = prepareResponse(NOT_ACCEPTABLE.value(), oneTimeId, ex.getMessage());
     return ResponseEntity.unprocessableEntity().body(response);
   }
 
@@ -69,14 +73,15 @@ public class GlobalExceptionHandler {
       final Exception ex, final WebRequest request) {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
-        isBlank(request.getHeader("oneTimeId")) ? "" : request.getHeader("oneTimeId");
-    var response = prepareResponse(oneTimeId, ex.getMessage());
+        isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
+    var response = prepareResponse(INTERNAL_SERVER_ERROR.value(), oneTimeId, ex.getMessage());
     return ResponseEntity.internalServerError().body(response);
   }
 
-  private ObjectNode prepareResponse(String oneTimeUid, Object body) {
+  private ObjectNode prepareResponse(int statusCode, String oneTimeUid, Object body) {
     var responseBody = objectMapper.createObjectNode();
     responseBody.put("requestId", oneTimeUid);
+    responseBody.put("errorCode", String.valueOf(statusCode));
     responseBody.putPOJO("errorReason", body);
     return responseBody;
   }
