@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserPageResponse {
   private boolean hasNext;
-  private int total;
-  private int current;
-  private int size;
+  private int totalPage;
+  private int currentPage;
+  private int pageSize;
 
   private List<UserDetailResponse> records;
 }

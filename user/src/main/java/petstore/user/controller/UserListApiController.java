@@ -61,9 +61,9 @@ public class UserListApiController {
       @RequestParam(value = "userId", required = false) String userId,
       @RequestParam(value = "email", required = false) String email,
       @RequestParam(value = "name", required = false) String name,
-      @NotBlank @IntValue @RequestParam(value = "page", required = false, defaultValue = "1")
+      @NotBlank @IntValue @RequestParam(value = "page", required = false, defaultValue = "0")
           String page,
-      @NotBlank @IntValue @RequestParam(value = "size", required = false, defaultValue = "30")
+      @NotBlank @IntValue @RequestParam(value = "size", required = false, defaultValue = "15")
           String size,
       @NotBlank
           @Pattern(regexp = "^(fistName|lastName|email)$")
@@ -74,7 +74,7 @@ public class UserListApiController {
           @RequestParam(value = "order", required = false, defaultValue = "ASC")
           String order) {
     // Prepare list request
-    var sortPage = Sort.by("firstName");
+    var sortPage = Sort.by(sort);
     var pageable =
         PageRequest.of(
             parseInt(page),

@@ -39,9 +39,9 @@ public class UserListServiceImpl implements UserListService {
         users.getContent().stream().map(u -> mapper.map(u, UserDetailResponse.class)).toList();
 
     return UserPageResponse.builder()
-        .total(users.getTotalPages())
-        .current(users.getNumber())
-        .size(users.getSize())
+        .totalPage(users.getTotalPages())
+        .currentPage(users.getNumber())
+        .pageSize(users.getSize())
         .hasNext(users.hasNext())
         .records(records)
         .build();
