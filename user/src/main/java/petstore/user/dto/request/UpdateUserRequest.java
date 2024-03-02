@@ -1,4 +1,4 @@
-package petstore.user.dto.user.request;
+package petstore.user.dto.request;
 
 import jakarta.annotation.Nullable;
 import java.time.LocalDate;

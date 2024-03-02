@@ -1,4 +1,4 @@
-package petstore.user.dto.user.request;
+package petstore.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;

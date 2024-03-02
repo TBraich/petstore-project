@@ -19,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import petstore.common.advice.exception.ExistingRecordException;
 import petstore.common.entity.User;
-import petstore.user.dto.user.request.CreateUserRequest;
+import petstore.user.dto.request.CreateUserRequest;
 import petstore.user.repository.UserRepository;
 
 @SpringBootTest

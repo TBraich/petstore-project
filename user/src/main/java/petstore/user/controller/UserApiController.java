@@ -1,8 +1,8 @@
 package petstore.user.controller;
 
-import static petstore.common.utils.CommonFunctions.prepareResponse;
 import static petstore.common.dto.RestApiHeader.EVENT_TIME;
 import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
+import static petstore.common.utils.CommonFunctions.prepareResponse;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.Nonnull;
@@ -13,16 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import petstore.common.validation.Required;
-import petstore.user.dto.user.request.CreateUserRequest;
-import petstore.user.dto.user.request.UpdateUserRequest;
+import petstore.user.dto.request.CreateUserRequest;
+import petstore.user.dto.request.UpdateUserRequest;
 import petstore.user.service.UserService;
 
 @RestController
@@ -47,9 +47,9 @@ public class UserApiController {
   public ResponseEntity<ObjectNode> find(
       @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
       @RequestHeader(name = EVENT_TIME) String eventTime,
-      @Required @RequestParam("userInfo") String userId) {
-    log.info("START API Find User, ID: {} at {}, Request: {}", oneTimeId, eventTime, userId);
-    var response = userService.find(oneTimeId, userId);
+      @Required @PathVariable(value = "userInfo", required = false) String userInfo) {
+    log.info("START API Find User, ID: {} at {}, Request: {}", oneTimeId, eventTime, userInfo);
+    var response = userService.find(oneTimeId, userInfo);
     return prepareResponse(oneTimeId, response);
   }
 
@@ -57,7 +57,7 @@ public class UserApiController {
   public ResponseEntity<ObjectNode> update(
       @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
       @RequestHeader(name = EVENT_TIME) String eventTime,
-      @Nonnull @RequestParam("userInfo") String userId,
+      @Required @PathVariable(value = "userInfo", required = false) String userId,
       @RequestBody UpdateUserRequest request) {
     log.info("START API Update User, ID: {} at {}, userId: {}", oneTimeId, eventTime, userId);
     var response = userService.update(oneTimeId, userId, request);
@@ -68,7 +68,7 @@ public class UserApiController {
   public ResponseEntity<ObjectNode> delete(
       @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
       @RequestHeader(name = EVENT_TIME) String eventTime,
-      @Nonnull @RequestParam("userInfo") String userId) {
+      @Nonnull @PathVariable("userInfo") String userId) {
     log.info(
         "START API Delete User, RequestID: {} at {}, Request: {}", oneTimeId, eventTime, userId);
     var response = userService.delete(oneTimeId, userId);

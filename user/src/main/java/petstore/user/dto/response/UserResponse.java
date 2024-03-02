@@ -1,4 +1,4 @@
-package petstore.user.dto.user.response;
+package petstore.user.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
