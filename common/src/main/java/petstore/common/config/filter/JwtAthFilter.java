@@ -62,6 +62,6 @@ public class JwtAthFilter extends OncePerRequestFilter {
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) {
     String url = request.getRequestURL().toString();
-    return StringUtils.containsAny(url, "/ath", "/health");
+    return StringUtils.containsAny(url, "/ath", "/health", "/register");
   }
 }
