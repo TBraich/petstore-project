@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="petstore.pet.repository.PetRepository">
+
+    <insert id="create" parameterType="petstore.pet.dto.request.CreatePetRequest">
+        <![CDATA[
+            INSERT INTO pet
+                (id, name, category_id, store_id, status, birthday)
+            VALUES (
+                #{id},
+                #{name},
+                #{categoryId},
+                #{storeId},
+                #{status},
+                #{birthday}
+            )
+        ]]>
+    </insert>
+
+    <select id="findById" resultType="petstore.common.entity.Pet">
+        <![CDATA[
+            SELECT
+                id
+                , name
+                , category_id
+                , store_id
+                , status
+                , birthday
+            FROM pet
+            WHERE
+                id = #{id}
+        ]]>
+    </select>
+
+    <select id="findForUpdate" resultType="petstore.common.entity.Pet">
+        <![CDATA[
+            SELECT
+                id
+                , name
+                , category_id
+                , store_id
+                , status
+                , birthday
+            FROM pet
+            WHERE
+                id = #{id}
+            FOR UPDATE
+        ]]>
+    </select>
+
+    <delete id="delete">
+        <![CDATA[
+            DELETE FROM pet
+            WHERE
+                id = #{id}
+        ]]>
+    </delete>
+
+    <update id="update" parameterType="petstore.pet.dto.request.UpdatePetRequest">
+        UPDATE pet
+        SET
+        <if test="request.storeId != null and request.storeId != ''">
+            store_id = #{request.storeId},
+        </if>
+        <if test="request.name != null and request.name != ''">
+            name = #{request.name},
+        </if>
+        <if test="request.categoryId != null and request.categoryId != ''">
+            category_id = #{request.categoryId},
+        </if>
+        <if test="request.status != null and request.status != ''">
+            status = #{request.status},
+        </if>
+        <if test="request.birthday != null">
+            birthday = #{request.birthday},
+        </if>
+        update_at = NOW()
+        WHERE
+        id = #{petId}
+    </update>
+
+</mapper>
