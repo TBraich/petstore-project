@@ -13,7 +13,9 @@ import jakarta.transaction.SystemException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -29,12 +31,27 @@ public class GlobalExceptionHandler {
   private final ObjectMapper objectMapper;
 
   @ExceptionHandler({ConstraintViolationException.class, ServletRequestBindingException.class})
-  public ResponseEntity<Object> handleConstraintViolationException(
+  public ResponseEntity<Object> handleBadRequestException(
       final Exception ex, final WebRequest request) {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
         isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
     var response = prepareResponse(BAD_REQUEST.value(), oneTimeId, ex.getMessage());
+    return ResponseEntity.badRequest().body(response);
+  }
+
+  @ExceptionHandler({MethodArgumentNotValidException.class})
+  public ResponseEntity<Object> handleMethodArgumentNotValidException(
+      final MethodArgumentNotValidException ex, final WebRequest request) {
+    log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
+    String oneTimeId =
+        isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
+    var error = ex.getBindingResult().getFieldError();
+    var response =
+        prepareResponse(
+            BAD_REQUEST.value(),
+            oneTimeId,
+            ObjectUtils.isEmpty(error) ? ex.getMessage() : error.getDefaultMessage());
     return ResponseEntity.badRequest().body(response);
   }
 
