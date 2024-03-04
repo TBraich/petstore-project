@@ -1,4 +1,4 @@
-package petstore.user.dto.response;
+package petstore.common.dto;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserPageResponse {
+public class PageResponse<T> {
   private boolean hasNext;
   private int totalPage;
   private int currentPage;
   private int pageSize;
 
-  private List<UserDetailResponse> records;
+  private List<T> records;
 }

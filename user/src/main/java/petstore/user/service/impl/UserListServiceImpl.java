@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import petstore.common.dto.BasicResponse;
+import petstore.common.dto.PageResponse;
 import petstore.user.dto.request.CreateBatchUserRequest;
 import petstore.user.dto.request.UserPageRequest;
 import petstore.user.dto.response.UserDetailResponse;
-import petstore.user.dto.response.UserPageResponse;
 import petstore.user.repository.UserRepository;
 import petstore.user.service.UserListService;
 
@@ -30,7 +30,7 @@ public class UserListServiceImpl implements UserListService {
   private String topic;
 
   @Override
-  public UserPageResponse list(String oneTimeId, UserPageRequest request) {
+  public PageResponse<UserDetailResponse> list(String oneTimeId, UserPageRequest request) {
     var users =
         userRepository.findByPage(
             request.getUserId(), request.getEmail(), request.getName(), request.getPageable());
@@ -38,7 +38,7 @@ public class UserListServiceImpl implements UserListService {
     var records =
         users.getContent().stream().map(u -> mapper.map(u, UserDetailResponse.class)).toList();
 
-    return UserPageResponse.builder()
+    return PageResponse.<UserDetailResponse>builder()
         .totalPage(users.getTotalPages())
         .currentPage(users.getNumber())
         .pageSize(users.getSize())
