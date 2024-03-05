@@ -1,8 +1,8 @@
 package petstore.user.controller;
 
-import static java.lang.Integer.parseInt;
 import static petstore.common.dto.RestApiHeader.EVENT_TIME;
 import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
+import static petstore.common.utils.CommonFunctions.preparePageRequest;
 import static petstore.common.utils.CommonFunctions.prepareResponse;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,18 +72,12 @@ public class UserListApiController {
           @RequestParam(value = "order", required = false, defaultValue = "ASC")
           String order) {
     // Prepare list request
-    var sortPage = Sort.by(sort);
-    var pageable =
-        PageRequest.of(
-            parseInt(page),
-            parseInt(size),
-            order.equalsIgnoreCase("ASC") ? sortPage.ascending() : sortPage.descending());
     var request =
         UserPageRequest.builder()
             .userId(StringUtils.isNotBlank(userId) ? userId : "")
             .email(StringUtils.isNotBlank(email) ? email : "")
             .name(StringUtils.isNotBlank(name) ? name : "")
-            .pageable(pageable)
+            .pageable(preparePageRequest(page, size, sort, order))
             .build();
 
     log.info("START API Search Users, ID: {} at {}, users: {}", oneTimeId, eventTime, request);
