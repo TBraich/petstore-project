@@ -9,8 +9,12 @@
     </parent>
 
     <artifactId>petstore-project.common</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${release.version}</version>
     <name>common</name>
     <description>Petstore project - Common</description>
+
+    <properties>
+        <release.version>0.0.1-SNAPSHOT</release.version>
+    </properties>
 
 </project>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -10,15 +10,27 @@
 	</parent>
 
 	<artifactId>petstore-project.pet</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${release.version}</version>
 	<name>pet</name>
 	<description>Petstore project - Pet Management</description>
+
+	<properties>
+		<release.version>0.0.1-SNAPSHOT</release.version>
+
+		<docker.username>${env.DOCKER_USER_NAME}</docker.username>
+		<docker.password>${env.DOCKER_USER_PASSWORD}</docker.password>
+		<jib.version>3.4.0</jib.version>
+		<common.version>0.0.1-SNAPSHOT</common.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>petstore</groupId>
 			<artifactId>petstore-project.common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${common.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -40,21 +52,21 @@
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.4.0</version>
+				<version>${jib.version}</version>
 				<configuration>
 					<from>
 						<image>openjdk:17-oracle</image>
 						<auth>
-							<username>${env.DOCKER_USER_NAME}</username>
-							<password>${env.DOCKER_USER_PASSWORD}</password>
+							<username>${docker.username}</username>
+							<password>${docker.password}</password>
 						</auth>
 					</from>
 					<to>
 						<image>bachdt1/${project.parent.artifactId}-${project.name}:${project.version}
 						</image>
 						<auth>
-							<username>${env.DOCKER_USER_NAME}</username>
-							<password>${env.DOCKER_USER_PASSWORD}</password>
+							<username>${docker.username}</username>
+							<password>${docker.password}</password>
 						</auth>
 					</to>
 					<container>
