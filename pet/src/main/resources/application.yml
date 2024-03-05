@@ -11,3 +11,9 @@ server:
 logging:
   level:
     mapper: DEBUG
+
+# Project properties
+petstore:
+  app:
+    env: dev
+    module: pet
