@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse update(String oneTimeId, String userId, UpdateUserRequest request) {
+    // TODO: implement
     return null;
   }
 
@@ -56,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse delete(String oneTimeId, String userId) {
+    // TODO: implement
     return null;
   }
 }

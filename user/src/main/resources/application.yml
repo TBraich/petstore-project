@@ -5,22 +5,17 @@ spring:
     schemas: user_database
     name: user_database
     defaultSchema: user_database
-    dataSource:
-      url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
-      username: root
-      password: root
-      driver-class-name: com.mysql.cj.jdbc.Driver
-#  database:
-#    host: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
-#    name: user_database
+## For local
+#    dataSource:
+#      url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
+#      username: root
+#      password: root
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#  dataSource:
+#    url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
 #    username: root
 #    password: root
-#    driver-class-name: com.mysql.jdbc.Driver
-  dataSource:
-    url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   port: 8082

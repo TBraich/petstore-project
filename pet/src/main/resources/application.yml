@@ -1,19 +1,15 @@
 spring:
-  dataSource:
-    url: jdbc:mysql://127.0.0.1:3306/pet_database?createDatabaseIfNotExist=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+## For local
+#  dataSource:
+#    url: jdbc:mysql://127.0.0.1:3306/pet_database?createDatabaseIfNotExist=true
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   port: 8092
 
-logging:
-  level:
-    mapper: DEBUG
-
 # Project properties
 petstore:
   app:
-    env: dev
     module: pet
