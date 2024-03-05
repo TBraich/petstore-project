@@ -1,11 +1,12 @@
 spring:
   flyway:
     enabled: false
-  dataSource:
-    url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#  # For Local
+#  dataSource:
+#    url: jdbc:mysql://127.0.0.1:3306/user_database?createDatabaseIfNotExist=true
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   port: 8081
