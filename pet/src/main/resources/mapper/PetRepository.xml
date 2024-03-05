@@ -49,6 +49,67 @@
         ]]>
     </select>
 
+    <select id="findList" parameterType="petstore.pet.dto.request.PetPageRequest"
+            resultType="petstore.common.entity.Pet">
+        SELECT
+        id
+        , name
+        , category_id
+        , store_id
+        , status
+        , birthday
+        FROM pet
+        WHERE
+        1 = 1
+        <if test="stores != null">
+            AND store_id IN
+            <foreach item="store" collection="stores" open="(" separator="," close=")">
+                #{store}
+            </foreach>
+        </if>
+        <if test="categories != null">
+            AND category_id IN
+            <foreach item="category" collection="categories" open="(" separator="," close=")">
+                #{category}
+            </foreach>
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        <if test="name != null and name != ''">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        <if test="sortKey != null and orderBy != null">
+            ORDER BY #{sortKey} #{orderBy}
+        </if>
+    </select>
+
+    <select id="findTotal" parameterType="petstore.pet.dto.request.PetPageRequest"
+            resultType="integer">
+        SELECT COUNT(id)
+        FROM pet
+        WHERE
+        1 = 1
+        <if test="stores != null">
+            AND store_id IN
+            <foreach item="store" collection="stores" open="(" separator="," close=")">
+                #{store}
+            </foreach>
+        </if>
+        <if test="categories != null">
+            AND category_id IN
+            <foreach item="category" collection="categories" open="(" separator="," close=")">
+                #{category}
+            </foreach>
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        <if test="name != null and name != ''">
+            AND name = #{name}
+        </if>
+    </select>
+
     <delete id="delete">
         <![CDATA[
             DELETE FROM pet

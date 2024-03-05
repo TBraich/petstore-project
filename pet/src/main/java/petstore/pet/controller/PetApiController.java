@@ -44,21 +44,6 @@ public class PetApiController {
     return prepareResponse(oneTimeId, response);
   }
 
-  // TODO: Implement findByStore in PetListApi
-  //  @GetMapping("/store}")
-  //  public ResponseEntity<ObjectNode> findByStore(
-  //      @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
-  //      @RequestHeader(name = EVENT_TIME) String eventTime,
-  //      @Required @RequestParam(value = "storeId", required = false) List<String> listStores) {
-  //    log.info(
-  //        "START API Find Pets with store, ID: {} at {}, from stores: {}",
-  //        oneTimeId,
-  //        eventTime,
-  //        listStores);
-  //    var response = userService.find(oneTimeId, userInfo);
-  //    return prepareResponse(oneTimeId, response);
-  //  }
-
   @PutMapping("/update")
   public ResponseEntity<ObjectNode> update(
       @RequestHeader(name = ONE_TIME_ID) String oneTimeId,
