@@ -24,11 +24,15 @@
 
     <!-- Manage modules -->
     <modules>
-        <module>user</module>
+        <module>user-application/user</module>
+        <module>user-application/user-auth</module>
+        <module>user-application/user-core</module>
+
         <module>pet</module>
         <module>common</module>
-        <module>user-core</module>
-        <module>user-auth</module>
+
+        <module>store</module>
+        <module>notification</module>
     </modules>
 
     <dependencies>
