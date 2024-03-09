@@ -16,7 +16,9 @@
     <properties>
         <release.version>0.0.1-SNAPSHOT</release.version>
 
+        <!--suppress UnresolvedMavenProperty -->
         <docker.username>${env.DOCKER_USER_NAME}</docker.username>
+        <!--suppress UnresolvedMavenProperty -->
         <docker.password>${env.DOCKER_USER_PASSWORD}</docker.password>
         <jib.version>3.4.0</jib.version>
         <common.version>0.0.1-SNAPSHOT</common.version>
