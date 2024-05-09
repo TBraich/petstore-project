@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import petstore.common.advice.exception.NotFoundException;
-import petstore.common.entity.AuthorizeInfo;
+import petstore.common.dto.gw.AuthorizeInfo;
 import petstore.common.entity.Role;
 import petstore.common.utils.JwtUtil;
 import petstore.userauth.dto.LoginRequest;
