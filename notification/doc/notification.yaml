@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Pet Store Notification Service
+  version: 1.0.0
+  description: This service handles sending notification and handling notification message within the Pet Store system.
+servers:
+  - url: http://petstore.samplehost.com/
+    description: Sample
+paths:
+  /notification/send:
+    post:
+      summary: Send a notification
+      operationId: sendNotification
+      tags:
+        - notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequest'
+      responses:
+        '200':
+          description: Notification sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponse'
+        '400':
+          description: Bad request, check the request body
+
+  /notification/history/{userId}:
+    get:
+      summary: Get notification history for a user
+      operationId: getNotificationHistory
+      tags:
+        - notification
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: History retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+
+components:
+  schemas:
+    NotificationRequest:
+      type: object
+      required:
+        - userId
+        - message
+      properties:
+        userId:
+          type: string
+          description: ID of the user to whom the notification is to be sent
+        message:
+          type: string
+          description: Notification message content
+        type:
+          type: string
+          description: Type of notification
+          enum: [email, sms, app]
+
+    NotificationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the notification was sent successfully
+        messageId:
+          type: string
+          description: Unique ID of the sent notification
+
+    Notification:
+      type: object
+      properties:
+        messageId:
+          type: string
+          description: Unique ID of the notification
+        userId:
+          type: string
+          description: ID of the user who received the notification
+        message:
+          type: string
+          description: Content of the notification
+        timestamp:
+          type: string
+          format: date-time
+          description: When the notification was sent

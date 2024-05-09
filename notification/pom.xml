@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>petstore</groupId>
+        <artifactId>petstore-project</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>petstore-project.notification</artifactId>
+    <version>${release.version}</version>
+    <name>notification</name>
+    <description>Petstore project - Notification Management</description>
+
+    <properties>
+        <release.version>0.0.1-SNAPSHOT</release.version>
+
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.username>${env.DOCKER_USER_NAME}</docker.username>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.password>${env.DOCKER_USER_PASSWORD}</docker.password>
+        <jib.version>3.4.0</jib.version>
+        <common.version>0.0.1-SNAPSHOT</common.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>petstore</groupId>
+            <artifactId>petstore-project.common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib.version}</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:17-oracle</image>
+                        <auth>
+                            <username>${docker.username}</username>
+                            <password>${docker.password}</password>
+                        </auth>
+                    </from>
+                    <to>
+                        <image>bachdt1/${project.parent.artifactId}-${project.name}:${project.version}
+                        </image>
+                        <auth>
+                            <username>${docker.username}</username>
+                            <password>${docker.password}</password>
+                        </auth>
+                    </to>
+                    <container>
+                        <ports>
+                            <port>8092</port>
+                        </ports>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
