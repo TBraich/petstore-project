@@ -1,4 +1,4 @@
-package petstore.common.entity;
+package petstore.common.dto.gw;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

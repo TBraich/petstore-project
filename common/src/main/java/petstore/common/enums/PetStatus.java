@@ -21,4 +21,12 @@ public enum PetStatus {
         .findFirst()
         .orElse(AVAILABLE);
   }
+
+  public String status() {
+    return status;
+  }
+
+  public boolean check(String petStatus) {
+    return status.equals(petStatus);
+  }
 }

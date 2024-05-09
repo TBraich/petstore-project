@@ -3,13 +3,11 @@ package petstore.common.advice;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static petstore.common.dto.RestApiHeader.ONE_TIME_ID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import jakarta.transaction.SystemException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import petstore.common.advice.exception.ExistingRecordException;
 import petstore.common.advice.exception.ExternalException;
 import petstore.common.advice.exception.NotFoundException;
+import petstore.common.advice.exception.SystemException;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -81,7 +80,7 @@ public class GlobalExceptionHandler {
     log.error("{} occurred: {}", ex.getClass().getName(), ex.getMessage());
     String oneTimeId =
         isBlank(request.getHeader(ONE_TIME_ID)) ? "" : request.getHeader(ONE_TIME_ID);
-    var response = prepareResponse(NOT_ACCEPTABLE.value(), oneTimeId, ex.getMessage());
+    var response = prepareResponse(INTERNAL_SERVER_ERROR.value(), oneTimeId, ex.getMessage());
     return ResponseEntity.unprocessableEntity().body(response);
   }
 

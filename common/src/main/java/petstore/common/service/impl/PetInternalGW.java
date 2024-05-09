@@ -14,28 +14,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import petstore.common.advice.exception.ExternalException;
-import petstore.common.entity.AuthorizeInfo;
-import petstore.common.service.AuthGateway;
+import petstore.common.dto.gw.PetInfo;
+import petstore.common.repository.CacheRepository;
+import petstore.common.service.PetGateway;
 
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class AuthGatewayImpl implements AuthGateway {
+public class PetInternalGW implements PetGateway {
   private final RestTemplate restTemplate;
+  private final CacheRepository cacheRepository;
 
-  @Value("${petstore.app.auth.host:http://localhost:8083}")
+  @Value("${petstore.app.pet.host:http://localhost:8092}")
   private String baseHost;
 
-  @Value("${petstore.app.auth.authorize:/ath/authorize}")
-  private String authorizePath;
+  @Value("${petstore.app.auth.authorize:internal/%s}")
+  private String petPath;
 
-  @Value("${petstore.app.auth.path:/ath/role}")
-  private String rolePath;
+  @Value("${petstore.app.auth.authorize:internal/list/%s}")
+  private String petListPath;
 
   @Override
-  public AuthorizeInfo authorize(String userId) {
+  public PetInfo find(String petId) {
     try {
-      String url = baseHost + authorizePath + "?user_id=" + userId;
+      String url = baseHost + String.format("%s", petId);
 
       // Create headers
       var headers = new HttpHeaders();
@@ -48,16 +50,16 @@ public class AuthGatewayImpl implements AuthGateway {
 
       ResponseEntity<String> response =
           restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-      log.info("Authorization Response for user {}: {}", userId, response.getBody());
+      log.info("Pet Detail Response for pet {}: {}", petId, response.getBody());
 
       ObjectMapper mapper = new ObjectMapper();
       JsonNode rootNode = mapper.readTree(response.getBody());
 
       JsonNode dataNode = rootNode.path("data");
-      return mapper.treeToValue(dataNode, AuthorizeInfo.class);
+      return mapper.treeToValue(dataNode, PetInfo.class);
     } catch (Exception e) {
-      log.error("Failed to get authorization info");
-      throw new ExternalException("AuthGateway");
+      log.error("Failed to get Pet info");
+      throw new ExternalException("PetInternalGW");
     }
   }
 }

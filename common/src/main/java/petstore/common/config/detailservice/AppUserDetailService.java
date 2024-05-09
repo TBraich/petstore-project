@@ -1,5 +1,7 @@
 package petstore.common.config.detailservice;
 
+import static petstore.common.utils.CacheKey.AUTH_ROLE;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
@@ -9,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import petstore.common.entity.AuthorizeInfo;
+import petstore.common.dto.gw.AuthorizeInfo;
 import petstore.common.repository.CacheRepository;
 import petstore.common.service.AuthGateway;
 
@@ -17,7 +19,6 @@ import petstore.common.service.AuthGateway;
 @Service
 @RequiredArgsConstructor
 public class AppUserDetailService implements UserDetailsService {
-  private static final String AUTH_ROLE = "ROLE";
   private final AuthGateway authGateway;
   private final CacheRepository cacheRepository;
 
