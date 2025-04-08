@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>petstore-project.user-auth</artifactId>
+    <artifactId>auth</artifactId>
     <version>${release.version}</version>
     <name>user-auth</name>
     <description>Petstore project - User Authorization</description>

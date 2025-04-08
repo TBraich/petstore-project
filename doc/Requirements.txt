@@ -1,0 +1,61 @@
+Services:
+Pet Inventory Service
+Order Service
+Payment Service
+Notification Service
+Kafka Topics:
+orders: For placing and tracking orders.
+payments: For processing and confirming payments.
+notifications: For sending out notifications to users.
+Pet Inventory Service
+Manages pet information and inventory.
+
+APIs:
+
+GET /pets - List all available pets.
+GET /pets/{id} - Get details of a specific pet.
+POST /pets - Add a new pet (admin).
+PUT /pets/{id} - Update pet details (admin).
+DELETE /pets/{id} - Delete a pet from inventory (admin).
+Kafka Integration:
+
+Subscribes to orders topic to decrement inventory when an order is placed.
+Order Service
+Handles the creation and management of pet orders.
+
+APIs:
+
+POST /orders - Place a new order.
+GET /orders/{orderId} - Retrieve order details.
+GET /orders/user/{userId} - List orders by user.
+Kafka Integration:
+
+Produces messages to the orders topic when a new order is placed.
+Consumes messages from the payments topic to update order status based on payment success or failure.
+Payment Service
+Processes payments for orders.
+
+APIs:
+
+POST /payments - Process payment for an order.
+GET /payments/{paymentId} - Retrieve payment details.
+Kafka Integration:
+
+Consumes messages from the orders topic to initiate payment processing.
+Produces messages to the payments topic to indicate payment success or failure.
+Optionally, produces messages to the notifications topic to notify users about payment status.
+Notification Service
+Sends notifications to users about various events like order confirmation, payment status, etc.
+
+APIs:
+
+Internal API to send notifications based on events.
+Kafka Integration:
+
+Consumes messages from the payments and orders topics to send notifications related to payment and order statuses.
+Architectural Considerations with Kafka
+Scalability: Kafka is highly scalable, allowing you to easily scale your messaging system up or down based on the load, by adjusting the number of brokers or partitioning topics.
+Fault Tolerance: Kafka's distributed nature ensures data is replicated across multiple nodes, making the system resilient to node failures.
+Performance: Kafka is designed for high throughput and low latency messaging, which is essential for real-time applications like order processing and inventory management.
+Event Sourcing: Kafka can act as the backbone for an event-sourced system, where every change to the application state is captured as a sequence of events.
+This architecture leverages Kafka's strengths to facilitate asynchronous communication and event-driven interactions among microservices, making the system more scalable, resilient, and capable of handling high volumes of messages efficiently.

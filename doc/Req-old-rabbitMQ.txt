@@ -1,0 +1,58 @@
+Services:
+Pet Inventory Service
+Order Service
+Payment Service
+Notification Service
+Pet Inventory Service
+Manages pet information and inventory.
+
+APIs:
+
+GET /pets - List all pets available for sale.
+GET /pets/{petId} - Get details of a specific pet.
+POST /pets - Add a new pet to the store (for admin users).
+PUT /pets/{petId} - Update pet details (for admin users).
+DELETE /pets/{petId} - Remove a pet from the store (for admin users).
+POST /pets/{petId}/decrementInventory - Decrement inventory count when a pet is sold (internal use).
+Order Service
+Handles customer orders for pets.
+
+APIs:
+
+POST /orders - Place a new order for a pet.
+GET /orders/{orderId} - Retrieve details of a specific order.
+GET /orders/user/{userId} - Get all orders placed by a specific user.
+PUT /orders/{orderId}/cancel - Cancel an existing order.
+Internal Functions:
+
+ValidateOrder - Check if the pet is available in inventory.
+PublishOrderEvent - Send a message to RabbitMQ to decrement inventory after order placement.
+Payment Service
+Processes payments for orders.
+
+APIs:
+
+POST /payments - Process a new payment.
+GET /payments/{paymentId} - Get details of a specific payment.
+GET /payments/order/{orderId} - Retrieve payment details for a specific order.
+Internal Functions:
+
+ConsumeOrderEvent - Listen for order events and trigger payment processing.
+PublishPaymentConfirmationEvent - Send a message to RabbitMQ to notify about payment status.
+Notification Service
+Sends notifications to customers about various events (e.g., order confirmation, payment status).
+
+APIs:
+
+POST /notifications - Send a custom notification (internal use).
+GET /notifications/user/{userId} - Retrieve notifications for a specific user.
+Internal Functions:
+
+ConsumePaymentConfirmationEvent - Listen for payment confirmation events and send notifications to customers.
+RabbitMQ Integration
+RabbitMQ serves as the message broker to facilitate asynchronous communication between services. It helps to decouple services by allowing them to publish and subscribe to messages without being directly connected to each other.
+
+Pet Inventory Service & Order Service: When an order is placed, the Order Service publishes an event that the Pet Inventory Service listens for to decrement the inventory.
+Order Service & Payment Service: After validating the order, the Order Service sends an event to the Payment Service to process the payment.
+Payment Service & Notification Service: Once the payment is processed, the Payment Service publishes a confirmation event that the Notification Service uses to notify the customer about the order and payment status.
+This architecture allows for scalability, as each service can be scaled independently based on demand. Additionally, it enhances the system's resilience, as the failure of one service doesn't directly impact the others, and they can continue to operate or recover gracefully.

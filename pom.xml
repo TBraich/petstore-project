@@ -24,14 +24,11 @@
 
     <!-- Manage modules -->
     <modules>
-        <module>user-application/user</module>
-        <module>user-application/user-auth</module>
-        <module>user-application/user-core</module>
-
-        <module>pet</module>
         <module>common</module>
-
-        <module>store</module>
+        <module>user</module>
+        <module>auth</module>
+        <module>core</module>
+        <module>pet</module>
         <module>notification</module>
     </modules>
 

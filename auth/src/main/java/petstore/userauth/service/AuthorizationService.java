@@ -1,6 +1,6 @@
 package petstore.userauth.service;
 
-import petstore.common.entity.AuthorizeInfo;
+import petstore.common.dto.gw.AuthorizeInfo;
 import petstore.userauth.dto.LoginRequest;
 import petstore.userauth.dto.LoginResponse;
 
